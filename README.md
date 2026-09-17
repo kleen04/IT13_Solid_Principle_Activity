@@ -15,7 +15,7 @@ Save button, and the total can now be calculated without a form existing at all.
 The discount logic was an `if/else if` chain that had to be edited for every new promo. It is now
 `IDiscountStrategy` plus one small class per rule (`StudentDiscount`, `SeniorDiscount`,
 `BlackFridayDiscount`). Adding "Christmas 20% off" means adding one file and one line in
-`Composition.Default()` — `OrderTotalCalculator` and `Form1` are never touched or re-tested.
+`Composition.Default()` `OrderTotalCalculator` and `Form1` are never touched or re-tested.
 
 ## L — Liskov Substitution
 See the question below. The rule shaped the design: `IDiscountStrategy.Apply` promises "give me a
@@ -26,7 +26,7 @@ so it lives behind `IShippingAdjustment` (`Domain/Shipping/FreeShipping.cs`) ins
 Instead of one fat `IOrderService` with Save + Email + Print, the capabilities are split:
 `IOrderWriter`, `IOrderReader`, `IInvoiceSender`, `IInvoicePresenter`. `FakeOrderRepository` only
 has to implement what it really supports, and no class is forced to write an empty or throwing
-method — which is exactly how LSP violations get created in the first place.
+method which is exactly how LSP violations get created in the first place.
 
 ## D — Dependency Inversion
 `Form1` no longer news up `SqlConnection` or `SmtpClient`. It receives interfaces through its
@@ -54,7 +54,7 @@ That they are not subtypes of that abstraction at all, and the fix belongs in th
 than in the caller. A subtype must be usable anywhere the base type is expected without the caller
 knowing which one it got: it may not strengthen preconditions, weaken postconditions, or throw
 exceptions the contract does not allow. Needing `if (x is FreeShippingDiscount)` guards around the
-calculator is the symptom — the real cause is that a shipping rule was forced into an order-total
+calculator is the symptom the real cause is that a shipping rule was forced into an order-total
 interface. Free shipping modifies a shipping fee, so it implements `IShippingAdjustment`, where it
 can keep its contract for every input.
 
