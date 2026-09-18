@@ -1,4 +1,4 @@
-SOLID Refactor — Order Screen
+## SOLID Refactor — Order Screen
 
 The original `Form1.cs` did everything: summed the grid, decided discount rates, opened a
 `SqlConnection`, built an e-mail, and popped a message box. Below is what each principle
